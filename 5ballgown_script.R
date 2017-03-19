@@ -30,7 +30,7 @@ results_transcripts = stattest(daphnia_countdata_filt, feature="transcript", cov
 head(results_transcripts)
 #Identify genes that show statistically sig diffs between groups
 results_genes = stattest(daphnia_countdata_filt, feature="gene", covariate = "treatment", getFC = TRUE, meas="FPKM")
-
+results_genes
 #Add gene names and gene IDs to the results_trascripts data frame
 results_transcripts = data.frame(geneNames=ballgown::geneNames(daphnia_countdata_filt), geneIDs=ballgown::geneIDs(daphnia_countdata_filt), results_transcripts)
 
@@ -67,17 +67,21 @@ fpkm = texpr(daphnia_countdata,meas="FPKM")
 fpkm = log2(fpkm+1)
 quartz()
 boxplot(fpkm,col=as.numeric(pheno_data$treatment),las=2,ylab='log2(FPKM+1)')
-
+?boxplot
 #Plotting individual trascripts if you have one you want to target
-ballgown::transcriptNames(daphnia_countdata)[17777]
+ballgown::transcriptNames(daphnia_countdata)[58299
+                                            ]
 ##  12
 ## "GTPBP6"
-ballgown::geneNames(daphnia_countdata)[17777]
+ballgown::geneIDs(daphnia_countdata)[hxAUG26us17g343t1]
 ##  12
 ## "GTPBP6
+
+View(as.data.frame(daphnia_countdata))
+
 quartz()
-plot(fpkm[17777,] ~ pheno_data$treatment, border=c(1,2),main=paste(ballgown::geneNames(daphnia_countdata)[17777],' : ',ballgown::transcriptNames(daphnia_countdata)[17777]),pch=19,xlab="Treatments",ylab='log2(FPKM+1)')
-points(fpkm[17777,] ~ jitter(as.numeric(pheno_data$treatment)),col=as.numeric(pheno_data$treatment))
+plot(fpkm[58648,] ~ pheno_data$treatment, border=c(1,2),main=paste(ballgown::geneNames(daphnia_countdata)[17777],' : ',ballgown::transcriptNames(daphnia_countdata)[17777]),pch=19,xlab="Treatments",ylab='log2(FPKM+1)')
+points(fpkm[58648,] ~ jitter(as.numeric(pheno_data$treatment)),col=as.numeric(pheno_data$treatment))
 
 #Plot structure and expression levels in a sample of all transcripts that share the same gene locus
 plotTranscripts(ballgown::geneIDs(daphnia_countdata)[4], daphnia_countdata, main=c('Gene XIST in sample daphC3_CCGAAG'), sample=c('daphC3_CCGAAG'))

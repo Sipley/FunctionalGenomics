@@ -10,7 +10,7 @@ directory <- "~/Desktop/"
 dir(directory)
 
 #read in data & pheno info
-rawCountTable <- read.csv(paste0(directory,"transcript_count_matrix.csv"),header=TRUE,row.names=1)
+rawCountTable <- read.csv(paste0(directory,"gene_count_matrix.csv"),header=TRUE,row.names=1)
 head(rawCountTable)
 sampleInfo <- read.csv(paste0(directory,"ballgown/pheno_data.csv"), header=TRUE,
                          row.names=1)
@@ -125,6 +125,7 @@ nrow(sigUpReg)
 write.csv(sigDownReg, file="sigDownReg.csv")
 write.csv(sigUpReg, file="sigUpReg.csv")
 
+quartz()
 plotSmear(dgeTestFilt,
           de.tags = rownames(resFilt$table)[which(resFilt$table$FDR<0.01)])
 
@@ -132,18 +133,24 @@ plotSmear(dgeTestFilt,
 volcanoData <- cbind(resFilt$table$logFC, -log10(resFilt$table$FDR))
 colnames(volcanoData) <- c("logFC", "negLogPval")
 head(volcanoData)
+quartz()
 plot(volcanoData, pch=19)
+
+
+
 
 #transform norm counts in log counts per mill
 y <- cpm(dge, log=TRUE, prior.count = 1)
 head(y)
 resFilt$table$FDR
 #select 1% DE genes & make heatmappp
-selY <- y[rownames(resFilt$table)[resFilt$table$FDR<0.00001 & 
-                                    abs(resFilt$table$logFC)>1.5],]
+selY <- y[rownames(resFilt$table)[resFilt$table$FDR<0.0000000000001 & 
+                                    abs(resFilt$table$logFC)>2.5],]
+?cim
 head(selY)
 cimColor1 <- colorRampPalette(rev(brewer.pal(9, "Blues")))(255)[255:1]
 cimColor1
 quartz()
-cim(t(selY), color=cimColor1, symkey=TRUE)
+  cim(t(selY), color=cimColor1, symkey=FALSE, col.cex=.8, margins=c(11,5))
 dev.off()
+
